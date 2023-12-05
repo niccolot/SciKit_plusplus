@@ -13,25 +13,17 @@ in the file k_means.hpp
 #include <algorithm>
 #include <ctime>
 #include <cmath>
-
 #include <iterator>
+#include <cassert>
 #include <bits/stdc++.h>
 
 using index_t = std::vector<double>::size_type; 
 
 
 K_means::K_means(std::string file_name, int k_val, std::string init){
-
-    // read file and codify the datapoints in the 'points' member
-    if(init!="kmeans++" && init!="random"){
-        std::cout<<"ERROR: invalid 'init' value, needs to be either kmeans++ or random";
-        exit(EXIT_FAILURE);
-    }
-
-    if(k_val<0){
-        std::cout<<"ERROR: invalid 'k' value, needs to be a positive int";
-        exit(EXIT_FAILURE);
-    }
+    
+    assert(init=="kmeans++" || init=="random");
+    assert(k_val>=0);
  
     std::ifstream file(file_name);
 

@@ -34,6 +34,7 @@ class K_means{
 
     public:
 
+        K_means() = delete;
         K_means(std::string file_name, int k_val, std::string init="kmeans++");
         void fit(int epochs, std::string algorithm="lloyd");
         void write_to_file(std::string output_file);
