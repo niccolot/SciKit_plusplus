@@ -16,7 +16,10 @@
                 "k_means_clustering/point.cpp",
                 "k_means_clustering/k_means.cpp",
                 "k_means_clustering/utils.cpp",
-                //"svm/utils.cpp",
+                "svm/data_utils.cpp",
+                "svm/smo_utils.cpp",
+                //"svm/binary_svm.cpp",
+                "svm/kernels.cpp",
                 "-o",
                 "${fileDirname}\\${fileBasenameNoExtension}.exe"
             ],

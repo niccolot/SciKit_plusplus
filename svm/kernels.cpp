@@ -1,11 +1,10 @@
 /*
 kernels.cpp
 
-definitions of kernel functions
+definition of kernel functions
 */
 
 #include "kernels.h"
-#include "utils.h"
 #include <numeric>
 #include <math.h>
 #include <bits/stdc++.h>
@@ -24,10 +23,11 @@ double polyKernel(std::vector<double> u, std::vector<double> v, kernelPars pars)
 
 double rbfKernel(std::vector<double> u, std::vector<double> v, kernelPars pars){
 
-    std::vector<double> x(u.size(), 0);
-    vectDiff(u,v,x);
-    double y = std::inner_product(x.begin(), x.end(), x.begin(), 0.0); // l2 squared norm ||u-v||^2
-    return exp(-y*pars.gamma);
+    double uu = std::inner_product(u.begin(), u.end(), u.begin(), 0.0);
+    double vv = std::inner_product(v.begin(), v.end(), v.begin(), 0.0);
+    double uv = std::inner_product(u.begin(), u.end(), v.begin(), 0.0);
+    double norm = uu - 2*uv + vv; // l2 squared norm ||u-v||^2 = xx - 2xy + yy
+    return exp(-norm*pars.gamma);
 }
 
 double tanhKernel(std::vector<double> u, std::vector<double> v, kernelPars pars){

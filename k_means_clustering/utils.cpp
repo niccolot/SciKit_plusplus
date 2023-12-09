@@ -324,9 +324,5 @@ void elkan_step(std::vector<std::vector<double>>& lower_bounds,
 		int centroid_idx = itc - centroids.begin();
 		centroids.at(centroid_idx) = means.at(centroid_idx);
 	}
-
-
-    
-
 }
 
