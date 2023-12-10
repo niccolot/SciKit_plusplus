@@ -1,7 +1,7 @@
 /*
 kernels.h
 
-declarations of various kernel functions 
+declarations of various kernel functions and struct containing the hyperparameters
 */
 
 #ifndef KERNELS_H
@@ -11,8 +11,8 @@ declarations of various kernel functions
 
 typedef struct{
     double gamma;
-    double r;
-    int d;
+    double r {0.0};
+    int d {3};
 } kernelPars; // parameters for kernel functions
 
 double linearKernel(std::vector<double> u, std::vector<double> v, kernelPars pars);

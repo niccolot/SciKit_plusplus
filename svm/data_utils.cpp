@@ -21,9 +21,11 @@ void load_dataset(std::string filename, DataSet& dataset, bool label_first_col, 
      * 
      * @param filename string with filepath
      * @param dataset reference to the DataSet struct where to store the datapoints and labels
-     * @param label_first_col whether the label column is the first or the last
+     * @param label_first_col whether the label column is the first or the last, default is false
      * @param train whether is the train dataset or not, in order to append also the labels to
-     *  the labels member of the dataset
+     *  the labels member of the dataset, default is true
+     * @param shuffle whether to shuffle the input dataset, default is true
+     * @param seed the seed for the shuffling
     */
 
     std::ifstream file(filename);

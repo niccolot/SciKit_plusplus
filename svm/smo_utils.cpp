@@ -3,6 +3,9 @@ smo_utils.cpp
 
 definitions of utility functions regarding the sequential minimal optimization (SMO) algorithm, 
 in particular the heuristic choice method and the local objective function calculator
+
+    heuristic_choice() implements the choice of the second alpha to be optimized as illustrated in Platt's article
+    objectiv_fucn() calculates a local objective function to be used when eta > 0 (refer to Platt's article)
 */
 
 #include "smo_utils.h"
@@ -12,6 +15,12 @@ in particular the heuristic choice method and the local objective function calcu
 
 
 size_t heuristic_choice(size_t i2, std::vector<float> &E, size_t n_samples){
+    /**
+     * @param i2 index of the first alpha to be optimized
+     * @param E erorr cache 
+     * @param n_samples number of datapoints in the dataset 
+     * @return the index of the chosen alpha to be optimized along with alpha[i2]
+    */
 
     double maxDiff = 0;
     size_t index = 0;
@@ -35,11 +44,18 @@ size_t heuristic_choice(size_t i2, std::vector<float> &E, size_t n_samples){
 }
 
 double objective_func(
+    /**
+     * @param i1, i2 indexes of the alphas
+     * @param a1,a2 alpha values of i1,i2
+     * @param dataset struct containig the training dataset
+     * @param alpha alphas vector
+     * @param K_lookup kernel lookup table
+     * @return value of the objective function
+    */
     
     size_t i1, size_t i2, double a1, double a2,
-    DataSet& dataset,
+    const DataSet& dataset,
     std::vector<double>& alpha,
-    std::vector<double>& w,
     std::unordered_map<size_t, size_t>& K_lookup)
 {
 

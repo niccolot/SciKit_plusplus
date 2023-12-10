@@ -2,8 +2,6 @@
 binary_svm.cpp
 
 implementation of the member function for a binary support vector machine classifier
-
-...
 */
 
 #include "binary_svm.h"
@@ -18,7 +16,7 @@ implementation of the member function for a binary support vector machine classi
 #include <ctime>
 
 
-BinarySVM::BinarySVM(kernelPars kernel_pars, std::string kernel, double C){
+BinarySVM::BinarySVM(kernelPars kernel_pars, std::string kernel, double C, std::string gamma){
     /**
      * Support vector machine (SVM) constructor
      * 
@@ -60,7 +58,7 @@ void BinarySVM::fit(int max_epochs, std::string filename, bool label_first_col, 
     DataSet dataset;
     load_dataset(filename, dataset, label_first_col, true, shuffle, seed);
     std::vector<double> alpha(dataset.features[0].size(), 0.0); // lagrange multipliers for dual problem
-    std::unordered_map<int, int> K_lookup; // lookup table containing all the dotproducts between the datapoints
+    std::unordered_map<size_t, size_t> K_lookup; // lookup table containing all the dotproducts between the datapoints
 
     size_t n_points = dataset.features.size();
     for(size_t i=0; i<n_points; ++i){
@@ -68,6 +66,8 @@ void BinarySVM::fit(int max_epochs, std::string filename, bool label_first_col, 
             K_lookup[i,j] = K(dataset.features[i], dataset.features[j], m_kernel_pars);
         }
     }
+
+    std::vector<double> E(n_points, 0.0); // error cache
 
     int numChanged = 0;
     int examineAll = 1;
@@ -77,11 +77,23 @@ void BinarySVM::fit(int max_epochs, std::string filename, bool label_first_col, 
 
         numChanged = 0;
 
+        // optimize all alphas
         if(examineAll){
             for(size_t i=0; i<n_points; ++i){
-
+                numChanged += examineExample(i,dataset,E,alpha,K_lookup);
             }
         }
+        // optimize only the unbounded alphas
+        else{
+            for(size_t i=0; i<n_points; ++i){
+                if(alpha[i] != 0.0 && alpha[i] != m_C){
+                    numChanged += examineExample(i,dataset,E,alpha,K_lookup);
+                }
+            }
+        }
+        if(examineAll) examineAll = 0;
+        else if(numChanged==0) examineAll = 1;
+        ++epoch;
     }
 
     if(epoch >= max_epochs){
@@ -151,7 +163,7 @@ int BinarySVM::examineExample(
 
 int BinarySVM::takeStep(    
         size_t i1, size_t i2,
-        DataSet& dataset, 
+        const DataSet& dataset, 
         std::vector<double>& E, 
         std::vector<double>& alpha,
         std::unordered_map<size_t, size_t>& K_lookup)
@@ -195,8 +207,8 @@ int BinarySVM::takeStep(
             a2 = H;
     }
     else{
-        double L_obj_val = objective_func(i1, i2, 0, L,  dataset, alpha, m_w, K_lookup);
-        double H_obj_val = objective_func(i1, i2, 0, H,  dataset, alpha, m_w, K_lookup);
+        double L_obj_val = objective_func(i1, i2, 0, L,  dataset, alpha, K_lookup);
+        double H_obj_val = objective_func(i1, i2, 0, H,  dataset, alpha, K_lookup);
         if (L_obj_val < H_obj_val - eps){
             a2 = H;
         }

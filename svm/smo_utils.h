@@ -36,9 +36,8 @@ size_t heuristic_choice(size_t i2, std::vector<double>& E, size_t n_samples);
 double objective_func(
 
     size_t i1, size_t i2, double a1, double a2,
-    DataSet& dataset,
+    const DataSet& dataset,
     std::vector<double>& alpha,
-    std::vector<double>& w,
     std::unordered_map<size_t, size_t>& K_lookup);
 
 #endif
