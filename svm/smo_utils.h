@@ -9,9 +9,12 @@ algorithm
 #define SMO_UTILS_H
 
 #include "data_utils.h"
+#include "kernels.h"
 #include <vector>
 #include <algorithm>
 #include <unordered_map>
+
+using std::size_t;
 
 
 template <typename T> 
@@ -36,8 +39,8 @@ size_t heuristic_choice(size_t i2, std::vector<double>& E, size_t n_samples);
 double objective_func(
 
     size_t i1, size_t i2, double a1, double a2,
-    const DataSet& dataset,
+    DataSet& dataset,
     std::vector<double>& alpha,
-    std::unordered_map<size_t, size_t>& K_lookup);
+    LookUpTable& K_lookup);
 
 #endif

@@ -8,7 +8,9 @@ definition of functions only declared in utils.h
 #include <fstream>
 #include <sstream>
 #include <random>
-#include <algorithm> 
+#include <algorithm>
+
+using std::size_t;
 
 
 void load_dataset(std::string filename, DataSet& dataset, bool label_first_col, bool train, bool shuffle, int seed){

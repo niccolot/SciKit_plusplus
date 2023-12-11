@@ -15,6 +15,8 @@ implementation of the member function for a binary support vector machine classi
 #include <algorithm>
 #include <ctime>
 
+using std::size_t;
+
 
 BinarySVM::BinarySVM(kernelPars kernel_pars, std::string kernel, double C, std::string gamma){
     /**
@@ -25,7 +27,6 @@ BinarySVM::BinarySVM(kernelPars kernel_pars, std::string kernel, double C, std::
      * @param C soft margin hyperparameter
     */
 
-    assert(kernel_pars.gamma >= 0.0);
     assert(kernel_pars.d >= 0);
     assert(kernel=="linear" || kernel=="poly" || kernel=="rbf" || kernel=="tanh");
 
@@ -43,6 +44,7 @@ BinarySVM::BinarySVM(kernelPars kernel_pars, std::string kernel, double C, std::
     }
 
     m_C = C;
+    // INSERT GAMMA SELECTION
     m_kernel_pars = kernel_pars;
 }
 
@@ -58,12 +60,13 @@ void BinarySVM::fit(int max_epochs, std::string filename, bool label_first_col, 
     DataSet dataset;
     load_dataset(filename, dataset, label_first_col, true, shuffle, seed);
     std::vector<double> alpha(dataset.features[0].size(), 0.0); // lagrange multipliers for dual problem
-    std::unordered_map<size_t, size_t> K_lookup; // lookup table containing all the dotproducts between the datapoints
+    LookUpTable K_lookup; // lookup table containing all the dot products between the datapoints
 
+    // instantiate the lut
     size_t n_points = dataset.features.size();
     for(size_t i=0; i<n_points; ++i){
         for(size_t j=0; j<n_points; ++j){
-            K_lookup[i,j] = K(dataset.features[i], dataset.features[j], m_kernel_pars);
+            K_lookup[i][j] = K(dataset.features[i], dataset.features[j], m_kernel_pars);
         }
     }
 
@@ -108,7 +111,7 @@ int BinarySVM::examineExample(
     DataSet& dataset, 
     std::vector<double>& E, 
     std::vector<double>& alpha, 
-    std::unordered_map<size_t, size_t>& K_lookup)
+    LookUpTable& K_lookup)
 {
 
     std::vector<double> point = dataset.features[i2];
@@ -162,11 +165,12 @@ int BinarySVM::examineExample(
 
 
 int BinarySVM::takeStep(    
-        size_t i1, size_t i2,
-        const DataSet& dataset, 
-        std::vector<double>& E, 
-        std::vector<double>& alpha,
-        std::unordered_map<size_t, size_t>& K_lookup)
+        
+    size_t i1, size_t i2,
+    DataSet& dataset, 
+    std::vector<double>& E, 
+    std::vector<double>& alpha,
+    LookUpTable& K_lookup)
 {
 
     std::vector<double> point1 = dataset.features[i1];
@@ -176,7 +180,7 @@ int BinarySVM::takeStep(
     double a1_old = alpha[i1];
     double a2_old = alpha[i2];
     double E1 = this->f(point1) - y1;
-    double eps = 0.001; // smo algorithm tolerance
+    double eps = 0.001; // smo algorithm tolerance advised in Platt's article
 
     if(i1==i2) return 0;
 
@@ -192,9 +196,9 @@ int BinarySVM::takeStep(
 
     if(L==H) return 0;
 
-    double k11 = K_lookup[(i1,i1)];
-    double k12 = K_lookup[(i1,i2)];
-    double k22 = K_lookup[(i2,i2)];
+    double k11 = K_lookup[i1][i1];
+    double k12 = K_lookup[i1][i2];
+    double k22 = K_lookup[i2][i2];
 
     double eta = 2*k12 - k11 - k22;
 
@@ -258,7 +262,7 @@ int BinarySVM::takeStep(
         
         if(i==i1 || i==i2) continue;
 
-        E[i] += y1*(a1-a1_old)*K_lookup[i1,i] + y2*(a2-a2_old)*K_lookup[i2,i] + m_b - b_new;
+        E[i] += y1*(a1-a1_old)*K_lookup[i1][i] + y2*(a2-a2_old)*K_lookup[i2][i] + m_b - b_new;
     }
 
     // update bias
@@ -282,7 +286,6 @@ void BinarySVM::predict(std::string filename, std::string outfile){
     DataSet dataset;
     load_dataset(filename, dataset);
     size_t n_points = dataset.features.size();
-    size_t n_features = dataset.features[0].size();
 
     for(size_t i = 0; i<n_points; ++i){
         std::vector<double> point = dataset.features[i];
