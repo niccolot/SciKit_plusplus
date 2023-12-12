@@ -10,18 +10,18 @@ definition of kernel functions
 #include <bits/stdc++.h>
 
 
-double linearKernel(std::vector<double> u, std::vector<double> v, kernelPars pars){
+double linearKernel(const std::vector<double>& u, const std::vector<double>& v, const kernelPars& pars){
 
     return std::inner_product(u.begin(), u.end(), v.begin(), 0.0);
 }
 
-double polyKernel(std::vector<double> u, std::vector<double> v, kernelPars pars){
+double polyKernel(const std::vector<double>& u, const std::vector<double>& v, const kernelPars& pars){
 
     double dot = std::inner_product(u.begin(), u.end(), v.begin(), 0.0);
     return pow(pars.gamma*dot + pars.r, pars.d);
 }
 
-double rbfKernel(std::vector<double> u, std::vector<double> v, kernelPars pars){
+double rbfKernel(const std::vector<double>& u, const std::vector<double>& v, const kernelPars& pars){
 
     double uu = std::inner_product(u.begin(), u.end(), u.begin(), 0.0);
     double vv = std::inner_product(v.begin(), v.end(), v.begin(), 0.0);
@@ -30,7 +30,7 @@ double rbfKernel(std::vector<double> u, std::vector<double> v, kernelPars pars){
     return exp(-norm*pars.gamma);
 }
 
-double tanhKernel(std::vector<double> u, std::vector<double> v, kernelPars pars){
+double tanhKernel(const std::vector<double>& u, const std::vector<double>& v, const kernelPars& pars){
 
     double dot = std::inner_product(u.begin(), u.end(), v.begin(), 0.0);
     return tanh(dot*pars.gamma + pars.r);

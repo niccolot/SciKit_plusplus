@@ -20,7 +20,7 @@ typedef struct{
     std::vector<int> labels;
 } DataSet;
 
-void load_dataset(std::string filename, DataSet& dataset, bool label_first_col=false, bool train=false, bool shuffle=true, int seed=25);
+void load_dataset(std::string& filename, DataSet& dataset, bool label_first_col=false, bool train=false, bool shuffle=true, int seed=25);
 void appendToCSV(const std::string& filename, const std::vector<double>& data, int label);
 double variance(const std::vector<std::vector<double>>& points);
 #endif

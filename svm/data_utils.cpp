@@ -13,7 +13,7 @@ definition of functions only declared in utils.h
 using std::size_t;
 
 
-void load_dataset(std::string filename, DataSet& dataset, bool label_first_col, bool train, bool shuffle, int seed){
+void load_dataset(std::string& filename, DataSet& dataset, bool label_first_col, bool train, bool shuffle, int seed){
     /**
      * takes the dataset path as input and loads it into the model
      * 
@@ -108,9 +108,17 @@ void appendToCSV(const std::string& filename, const std::vector<double>& data, i
 
 
 double variance(const std::vector<std::vector<double>>& points){
+    /**
+     * calculates the variance of the flattened dataset with
+     * the formula var(x) = E[x^2] - E[x]^2
+     * 
+     * @param points feature tensor
+     * @return the variance
+    */
 
-    double mean_of_square = 0.0;
-    double square_of_mean = 0.0;
+
+    double mean_of_square = 0.0; // E[x^2]
+    double square_of_mean = 0.0; // E[x]^2
     size_t n_points = points.size();
     double inverse = 1/(double)n_points;
 
@@ -122,8 +130,6 @@ double variance(const std::vector<std::vector<double>>& points){
     }
     square_of_mean *= inverse;
     square_of_mean *= square_of_mean;
-
-    
 
     double var = mean_of_square*inverse - square_of_mean;
     return var;

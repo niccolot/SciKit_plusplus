@@ -18,7 +18,7 @@ implementation of the member function for a binary support vector machine classi
 using std::size_t;
 
 
-BinarySVM::BinarySVM(kernelPars kernel_pars, std::string kernel, double C, std::string gamma){
+BinarySVM::BinarySVM(kernelPars& kernel_pars, std::string_view kernel, double C, std::string_view gamma){
     /**
      * Support vector machine (SVM) constructor
      * 
@@ -50,7 +50,7 @@ BinarySVM::BinarySVM(kernelPars kernel_pars, std::string kernel, double C, std::
 }
 
 
-double BinarySVM::fit(int max_epochs, std::string filename, bool label_first_col, bool shuffle, int seed){
+double BinarySVM::fit(int max_epochs, std::string& filename, bool label_first_col, bool shuffle, int seed){
     /**
      * @param epochs train epochs
      * @param filename path to train dataset
@@ -129,10 +129,10 @@ double BinarySVM::fit(int max_epochs, std::string filename, bool label_first_col
 int BinarySVM::examineExample(
     
     size_t i2, 
-    DataSet& dataset, 
+    const DataSet& dataset, 
     std::vector<double>& E, 
     std::vector<double>& alpha, 
-    LookUpTable& K_lookup)
+    const LookUpTable& K_lookup)
 {
 
     std::vector<double> point = dataset.features[i2];
@@ -188,10 +188,10 @@ int BinarySVM::examineExample(
 int BinarySVM::takeStep(    
         
     size_t i1, size_t i2,
-    DataSet& dataset, 
+    const DataSet& dataset, 
     std::vector<double>& E, 
     std::vector<double>& alpha,
-    LookUpTable& K_lookup)
+    const LookUpTable& K_lookup)
 {
 
     std::vector<double> point1 = dataset.features[i1];
@@ -217,9 +217,9 @@ int BinarySVM::takeStep(
 
     if(L==H) return 0;
 
-    double k11 = K_lookup[i1][i1];
-    double k12 = K_lookup[i1][i2];
-    double k22 = K_lookup[i2][i2];
+    double k11 = K_lookup.at(i1).at(i2);
+    double k12 = K_lookup.at(i1).at(i2);
+    double k22 = K_lookup.at(i2).at(i2);
 
     double eta = 2*k12 - k11 - k22;
 
@@ -283,7 +283,7 @@ int BinarySVM::takeStep(
         
         if(i==i1 || i==i2) continue;
 
-        E[i] += y1*(a1-a1_old)*K_lookup[i1][i] + y2*(a2-a2_old)*K_lookup[i2][i] + m_b - b_new;
+        E[i] += y1*(a1-a1_old)*K_lookup.at(i1).at(i) + y2*(a2-a2_old)*K_lookup.at(i2).at(i) + m_b - b_new;
     }
 
     // update bias
@@ -297,7 +297,7 @@ int BinarySVM::takeStep(
 }
 
 
-double BinarySVM::predict(std::string filename, std::string outfile){
+double BinarySVM::predict(std::string& filename, std::string& outfile){
     /**
      * @param filename path to test dataset
      * @param outfile path to new file which will be a copy of the 

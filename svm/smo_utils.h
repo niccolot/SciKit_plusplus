@@ -34,13 +34,13 @@ void vectByScalar(std::vector<T> &v, K k){
     std::transform(v.begin(), v.end(), v.begin(), [k](T &c){ return c*k; });
 }
 
-size_t heuristic_choice(size_t i2, std::vector<double>& E, size_t n_samples);
+size_t heuristic_choice(size_t i2, const std::vector<double>& E, size_t n_samples);
 
 double objective_func(
 
     size_t i1, size_t i2, double a1, double a2,
-    DataSet& dataset,
+    const DataSet& dataset,
     std::vector<double>& alpha,
-    LookUpTable& K_lookup);
+    const LookUpTable& K_lookup);
 
 #endif

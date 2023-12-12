@@ -22,8 +22,8 @@ typedef struct{
 // lookup table for kernel functions values
 typedef std::unordered_map<size_t, std::unordered_map<size_t, double>> LookUpTable;
 
-double linearKernel(std::vector<double> u, std::vector<double> v, kernelPars pars);
-double polyKernel(std::vector<double> u, std::vector<double> v, kernelPars pars);
-double rbfKernel(std::vector<double> u, std::vector<double> v, kernelPars pars);
-double tanhKernel(std::vector<double> u, std::vector<double> v, kernelPars pars);
+double linearKernel(const std::vector<double>& u, const std::vector<double>& v, const kernelPars& pars);
+double polyKernel(const std::vector<double>& u, const std::vector<double>& v, const kernelPars& pars);
+double rbfKernel(const std::vector<double>& u, const std::vector<double>& v, const kernelPars& pars);
+double tanhKernel(const std::vector<double>& u, const std::vector<double>& v, const kernelPars& pars);
 #endif
