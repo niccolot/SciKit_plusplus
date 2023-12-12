@@ -6,7 +6,7 @@ The model works with a .csv file containing the datapoints along the rows and th
 
 The cluster initialization methods implemented are the random (i.e. Forgy's) and kmeans++ algorithm.
 
-The actual clusterization algorithms implementes are the Lloyd's and Elkan's, the latter based on the algorithm presented in ['Using the tringle inequality to accelerate K-means'](https://www.researchgate.net/publication/2480121_Using_the_Triangle_Inequality_to_Accelerate_K-Means).
+The actual clusterization algorithms implemented are the Lloyd's and Elkan's, the latter based on the algorithm presented in ['Using the tringle inequality to accelerate K-means'](https://www.researchgate.net/publication/2480121_Using_the_Triangle_Inequality_to_Accelerate_K-Means).
 ## Contents
 
 * `point.h`: declaration of the `Point` class implementing the datapoint
