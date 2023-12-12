@@ -107,3 +107,26 @@ void appendToCSV(const std::string& filename, const std::vector<double>& data, i
 }
 
 
+double variance(const std::vector<std::vector<double>>& points){
+
+    double mean_of_square = 0.0;
+    double square_of_mean = 0.0;
+    size_t n_points = points.size();
+    double inverse = 1/(double)n_points;
+
+    for(auto point : points){
+        for(auto x : point){
+            mean_of_square += x*x;
+            square_of_mean += x;
+        }
+    }
+    square_of_mean *= inverse;
+    square_of_mean *= square_of_mean;
+
+    
+
+    double var = mean_of_square*inverse - square_of_mean;
+    return var;
+}
+
+

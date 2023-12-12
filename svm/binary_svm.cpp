@@ -22,13 +22,14 @@ BinarySVM::BinarySVM(kernelPars kernel_pars, std::string kernel, double C, std::
     /**
      * Support vector machine (SVM) constructor
      * 
-     * @param kernel_pars struct containing the parameter for the kernel functions 
+     * @param kernel_pars struct containing the parameter for the kernel functions
      * @param kernel whihc kernel function to use, linear kernel doesn't need parameters
      * @param C soft margin hyperparameter
     */
 
     assert(kernel_pars.d >= 0);
     assert(kernel=="linear" || kernel=="poly" || kernel=="rbf" || kernel=="tanh");
+    assert(gamma=="auto" || gamma=="scale" || gamma=="double");
 
     if(kernel=="rbf"){
         this->K = &rbfKernel;
@@ -44,12 +45,12 @@ BinarySVM::BinarySVM(kernelPars kernel_pars, std::string kernel, double C, std::
     }
 
     m_C = C;
-    // INSERT GAMMA SELECTION
+    m_gamma = gamma; 
     m_kernel_pars = kernel_pars;
 }
 
 
-void BinarySVM::fit(int max_epochs, std::string filename, bool label_first_col, bool shuffle, int seed){
+double BinarySVM::fit(int max_epochs, std::string filename, bool label_first_col, bool shuffle, int seed){
     /**
      * @param epochs train epochs
      * @param filename path to train dataset
@@ -69,6 +70,9 @@ void BinarySVM::fit(int max_epochs, std::string filename, bool label_first_col, 
             K_lookup[i][j] = K(dataset.features[i], dataset.features[j], m_kernel_pars);
         }
     }
+
+    if(m_gamma=="auto") m_kernel_pars.gamma = 1/(double)n_points;
+    if(m_gamma=="scale") m_kernel_pars.gamma = 1/((double)n_points*variance(dataset.features));
 
     std::vector<double> E(n_points, 0.0); // error cache
 
@@ -99,9 +103,26 @@ void BinarySVM::fit(int max_epochs, std::string filename, bool label_first_col, 
         ++epoch;
     }
 
+    std::cout<<"epoch: "<<epoch<<"done\n";
+
     if(epoch >= max_epochs){
         std::cout<<"max_epochs reached, training interrupted\n";
     }
+    
+    // accuracy at the end of the training
+    int correct = 0;
+    for(size_t i=0; i<n_points; ++i){
+        double pred = f(dataset.features[i]);
+        int label = (pred >= 0) ? 1 : -1;
+        if(label==dataset.labels[i]){
+            ++correct;
+        }
+    }
+
+    double acc = correct/(double)n_points;
+    m_train_acc = acc;
+
+    return acc;
 }
 
 
@@ -276,7 +297,7 @@ int BinarySVM::takeStep(
 }
 
 
-void BinarySVM::predict(std::string filename, std::string outfile){
+double BinarySVM::predict(std::string filename, std::string outfile){
     /**
      * @param filename path to test dataset
      * @param outfile path to new file which will be a copy of the 
@@ -286,11 +307,16 @@ void BinarySVM::predict(std::string filename, std::string outfile){
     DataSet dataset;
     load_dataset(filename, dataset);
     size_t n_points = dataset.features.size();
+    int correct = 0;
 
     for(size_t i = 0; i<n_points; ++i){
         std::vector<double> point = dataset.features[i];
         double pred = f(point);
         int label = (pred >= 0) ? 1 : -1;
+        if(label == dataset.labels[i]) ++correct;
         appendToCSV(outfile, point, label);
     }
+    double test_acc = correct/(double)n_points;
+    m_test_acc = test_acc;
+    return test_acc;
 }

@@ -28,7 +28,7 @@ private:
     double (*K)(std::vector<double>, std::vector<double>, kernelPars); // pointer to kernel function
     double f(const std::vector<double>& x) {return std::inner_product(x.begin(), x.end(), m_w.begin(), -m_b);} // f(x) = w*x - b
     double m_train_acc;
-    double m_val_acc;
+    double m_test_acc;
     
     int takeStep(    
         size_t i1, size_t i2,
@@ -48,9 +48,9 @@ public:
 
     BinarySVM() = delete;
     BinarySVM(kernelPars kernel_pars, std::string kernel="rbf", double C=1.0, std::string gamma="auto");
-    void fit(int max_epochs, std::string filename, bool label_first_col=false, bool shuffle=true, int seed=25);
-    void predict(std::string filename, std::string outfile);
+    double fit(int max_epochs, std::string filename, bool label_first_col=false, bool shuffle=true, int seed=25);
+    double predict(std::string filename, std::string outfile);
     double get_train_acc() const {return m_train_acc;}
-    double get_val_acc() const {return m_val_acc;}
+    double get_test_acc() const {return m_test_acc;}
 };
 #endif
