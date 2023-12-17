@@ -34,7 +34,7 @@ void load_dataset(std::string& filename, DataSet& dataset, bool label_first_col,
     std::string line;
 
     // Read each line from the file
-    while (std::getline(file, line)) {
+    while(std::getline(file, line)){
         std::vector<double> feature_row;
         std::istringstream iss(line);
         std::string token;
@@ -86,13 +86,13 @@ void appendToCSV(const std::string& filename, const std::vector<double>& data, i
     file.open(filename, std::ios::app);
 
     // Check if the file is successfully opened
-    if (!file.is_open()) {
+    if(!file.is_open()){
         std::cerr << "Error opening the file: " << filename << std::endl;
         return;
     }
 
     // Write each element of the vector to a new column
-    for (size_t i = 0; i < data.size(); ++i) {
+    for(size_t i = 0; i < data.size(); ++i){
         file << data[i];
         if (i < data.size() - 1) {
             file << ",";

@@ -37,7 +37,7 @@ private:
         std::vector<double>& E, 
         std::vector<double>& alpha, 
         const LookUpTable& K_lookup);
-    
+
     int takeStep(    
         size_t i1, size_t i2,
         const DataSet& dataset, 
