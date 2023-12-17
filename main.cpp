@@ -1,18 +1,20 @@
-#include "k_means_clustering/point.h"
-#include "k_means_clustering/k_means.h"
+#include "svm/data_utils.h"
+#include "svm/smo_utils.h"
+#include "svm/binary_svm.h"
+#include "svm/kernels.h"
 #include <iostream>
+#include <string>
+
+using std::size_t;
+
+
 
 int main(){
     
-    int epochs = 100;
-    int k = 5;
-    std::string input_file = "mall_data_2d.csv";
-    std::string output_file = "output1.csv";
-    
-    K_means k_means(input_file, k, "kmeans++");
-    k_means.fit(epochs, "elkan");
-    k_means.write_to_file(output_file);
-
+    std::string inputFile = "svm/wdbc_data_formatted.csv";
+    kernelPars kernel_pars = {1.0, 0.0, 3};
+    BinarySVM svm(kernel_pars);
+    double acc = svm.fit(50,inputFile);
     return 0;
 }
 
