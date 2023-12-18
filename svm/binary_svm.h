@@ -48,7 +48,7 @@ private:
 public:
 
     BinarySVM() = delete;
-    BinarySVM(kernelPars& kernel_pars, std::string_view kernel="rbf", double C=1.0, std::string_view gamma="auto");
+    BinarySVM(kernelPars& kernel_pars, std::string_view kernel="poly", double C=1.0, std::string_view gamma="scale");
     double fit(int max_epochs, std::string& filename, bool label_first_col=false, bool shuffle=true, int seed=25);
     double predict(std::string& filename, std::string& outfile);
     double get_train_acc() const {return m_train_acc;}

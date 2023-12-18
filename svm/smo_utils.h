@@ -31,7 +31,7 @@ void addVect(std::vector<T> const& x, std::vector<T> const& y, std::vector<T>& d
 
 template <typename T, typename K>
 void vectByScalar(std::vector<T> &v, K k){
-    std::transform(v.begin(), v.end(), v.begin(), [k](T &c){ return c*k; });
+    std::transform(v.begin(), v.end(), v.begin(), [k](T &c){return c*k;});
 }
 
 size_t heuristic_choice(size_t i2, const std::vector<double>& E, size_t n_samples);

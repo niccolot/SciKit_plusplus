@@ -63,15 +63,16 @@ double BinarySVM::fit(int max_epochs, std::string& filename, bool label_first_co
     DataSet dataset;
     load_dataset(filename, dataset, label_first_col, true, shuffle, seed);
 
+     size_t n_points = dataset.features.size();
     size_t n_features = dataset.features[0].size();
+
     if(m_gamma=="auto") m_kernel_pars.gamma = 1/(double)n_features;
     if(m_gamma=="scale") m_kernel_pars.gamma = 1/((double)n_features*variance(dataset.features));
 
-    std::vector<double> alpha(n_features, 0.0); // lagrange multipliers for dual problem
+    std::vector<double> alpha(n_points, 0.0); // lagrange multipliers for dual problem
     LookUpTable K_lookup; // lookup table containing all the dot products between the datapoints
 
     // instantiate the lut
-    size_t n_points = dataset.features.size();
     for(size_t i=0; i<n_points; ++i){
         for(size_t j=0; j<n_points; ++j){
             K_lookup[i][j] = K(dataset.features[i], dataset.features[j], m_kernel_pars);
@@ -114,7 +115,7 @@ double BinarySVM::fit(int max_epochs, std::string& filename, bool label_first_co
     std::cout<<"\nTraining epochs: "<<epoch<<"\n";
 
     if(epoch >= max_epochs){
-        std::cout<<"\nMax_epochs reached, training interrupted\n";
+        std::cout<<"\nmax_epochs reached, training interrupted\n";
     }
     
     // accuracy at the end of the training
