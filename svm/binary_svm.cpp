@@ -8,14 +8,12 @@ implementation of the member function for a binary support vector machine classi
 #include "kernels.h"
 #include "data_utils.h"
 #include "smo_utils.h"
-#include <cassert>
 #include <numeric>
 #include <unordered_map>
 #include <random>
 #include <algorithm>
 #include <ctime>
 #include <string>
-#include <string_view>
 
 using std::size_t;
 

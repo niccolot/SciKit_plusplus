@@ -6,20 +6,21 @@
 namespace neuralNets{
 namespace Layers{
 
-class Layers{
+class Linear{
 
 private:
 
-int in_nodes, out_nodes;
-Eigen::MatrixXf weigths;
-Eigen::VectorXf bias;
+int m_inNodes, m_outNodes;
+Eigen::MatrixXf m_weigths;
+Eigen::VectorXf m_bias;
     
 public:
 
-Layers() = delete;
-Layers(int in_nodes, int out_nodes, std::string_view init="random", bool bias=true);
+Linear() = delete;
+Linear(int inNodes, int outNodes, std::string_view init="random", bool bias=true);
+void forward(Eigen::VectorXf& out, const Eigen::VectorXf& x);
    
-}; // class Layers
+}; // class Linear
 }; // namespace Layers
 }; // namespace neuralNets
 #endif
