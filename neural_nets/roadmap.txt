@@ -1,1 +1,0 @@
-_Fare in modo di non usare virtual functions e smart pointers
