@@ -12,13 +12,14 @@ private:
 
 int m_inNodes, m_outNodes;
 Eigen::MatrixXf m_weigths;
-Eigen::VectorXf m_bias;
+Eigen::MatrixXf m_biasWeights;
+bool m_bias_bool;
     
 public:
 
 Linear() = delete;
 Linear(int inNodes, int outNodes, std::string_view init="random", bool bias=true);
-void forward(Eigen::VectorXf& out, const Eigen::VectorXf& x);
+void forward(Eigen::MatrixXf& out, const Eigen::MatrixXf& x);
    
 }; // class Linear
 }; // namespace Layers
