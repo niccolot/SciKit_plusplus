@@ -1,1 +1,3 @@
-_Fare in modo di non usare virtual functions e smart pointers
+_Fare in modo di non usare virtual functions e smart pointers, forse fare a meno delle virtual functions sarà difficile,
+    sicuro gli smart pointers sono evitabili
+    
