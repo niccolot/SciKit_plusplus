@@ -15,16 +15,30 @@ Linear::Linear(int inNodes, int outNodes, std::string_view init, bool bias){
 
     // uniform [-1, 1] initialization
     if(init == "random"){
-        m_weigths = Eigen::MatrixXf::Identity(outNodes, inNodes);
-        m_biasWeights = Eigen::MatrixXf::Zero(outNodes, 1);
+        m_weigths = Eigen::MatrixXf::Random(inNodes, outNodes);
+        m_biasWeights = Eigen::MatrixXf::Zero(1, outNodes);
         if(bias){
-            m_biasWeights = Eigen::MatrixXf::Ones(outNodes, 1);
+            m_biasWeights = Eigen::MatrixXf::Random(1, outNodes);
         }
     }
 }
 
 void Linear::forward(Eigen::MatrixXf& out, const Eigen::MatrixXf& x){
-    out = m_weigths*x + m_biasWeights;
+
+    m_forward_input = x;
+    out = x*m_weigths + m_biasWeights;
+}
+
+void Linear::backward(Eigen::MatrixXf& in_err, const Eigen::MatrixXf& out_err){
+
+    in_err = out_err + m_weigths.transpose(); // dEdX
+
+    auto dEdW = m_forward_input.transpose() * out_err;
+    // dEdB = out_err;
+
+    // weight and bias update
+    m_weigths -= m_lr*dEdW;
+    m_biasWeights -= m_lr*out_err;
 }
 
 }; // namespace Layers

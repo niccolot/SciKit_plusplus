@@ -1,25 +1,30 @@
 #ifndef LAYERS_H
 #define LAYERS_H
 
+#include "module.h"
 #include <eigen3/Eigen/Dense>
 
 namespace neuralNets{
 namespace Layers{
 
-class Linear{
+class Linear : public Module{
 
 private:
 
 int m_inNodes, m_outNodes;
 Eigen::MatrixXf m_weigths;
 Eigen::MatrixXf m_biasWeights;
+Eigen::MatrixXf m_forward_input;
 bool m_bias_bool;
+float m_lr = 0.01;
     
 public:
 
 Linear() = delete;
+~Linear() = default;
 Linear(int inNodes, int outNodes, std::string_view init="random", bool bias=true);
-void forward(Eigen::MatrixXf& out, const Eigen::MatrixXf& x);
+virtual void forward(Eigen::MatrixXf& out, const Eigen::MatrixXf& x) override;
+virtual void backward(Eigen::MatrixXf& in_err, const Eigen::MatrixXf& out_err) override;
    
 }; // class Linear
 }; // namespace Layers
