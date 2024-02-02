@@ -1,7 +1,7 @@
 #ifndef ACTIVATIONS_H
 #define ACTIVATIONS_H
 
-#include "module.h"
+#include "layers.h"
 #include <eigen3/Eigen/Dense>
 #include <cmath>
 

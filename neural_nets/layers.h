@@ -1,11 +1,22 @@
 #ifndef LAYERS_H
 #define LAYERS_H
 
-#include "module.h"
 #include <eigen3/Eigen/Dense>
 
 namespace neuralNets{
+
+class Module{
+
+public:
+
+virtual void forward(Eigen::MatrixXf& out, const Eigen::MatrixXf& x) = 0;
+
+virtual void backward(Eigen::MatrixXf& in_err, const Eigen::MatrixXf& out_err) = 0;
+}; // class Module
+
 namespace Layers{
+
+
 
 class Linear : public Module{
 
