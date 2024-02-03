@@ -4,7 +4,7 @@
 
 namespace neuralNets{
 
-void Sequential::forward(Eigen::MatrixXf &x) {for(const auto layer : m_model) layer->forward(x,x);}
+void Sequential::forward(Eigen::MatrixXf &x) {for(const auto& layer : m_model) layer->forward(x,x);}
 
 void Sequential::backward(float& loss, Eigen::MatrixXf& y_true, Eigen::MatrixXf& pred){
 
@@ -23,7 +23,7 @@ void Sequential::set_loss(Losses::LossModule& loss){m_loss = loss;}
 
 void Sequential::predict(std::vector<Eigen::MatrixXf>& pred, const std::vector<Eigen::MatrixXf>& dataset){
 
-    for(const auto x : dataset){
+    for(const auto& x : dataset){
         
         Eigen::MatrixXf out;
         out = x;
@@ -56,10 +56,10 @@ void Sequential::fit(const std::vector<Eigen::MatrixXf>& dataset, const std::vec
             err += loss_val;
         }
 
+        loss = err/samples;
+
         std::cout<<"Epoch: "<<epoch+1<<"/"<<epochs;
-        std::cout<<"Loss: "<<err/samples<<"\n\n";
+        std::cout<<"Loss: "<<loss<<"\n\n";
     }
 }
-
-
 }; // namespace neuralNets

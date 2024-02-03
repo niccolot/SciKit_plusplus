@@ -41,5 +41,11 @@ void Linear::backward(Eigen::MatrixXf& in_err, const Eigen::MatrixXf& out_err){
     m_biasWeights -= m_lr*out_err;
 }
 
+void Linear::_set_weights_bias(const Eigen::MatrixXf& w, const Eigen::MatrixXf& b){
+
+    m_weigths = w;
+    m_biasWeights = b;
+}
+
 }; // namespace Layers
 }; // namespace neuralNets
