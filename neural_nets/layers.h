@@ -38,6 +38,7 @@ virtual void forward(Eigen::MatrixXf& out, const Eigen::MatrixXf& x) override;
 virtual void backward(Eigen::MatrixXf& in_err, const Eigen::MatrixXf& out_err) override;
    
 }; // class Linear
+
 }; // namespace Layers
 }; // namespace neuralNets
 #endif

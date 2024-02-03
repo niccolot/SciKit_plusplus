@@ -24,6 +24,7 @@ virtual void forward(float& loss, const Eigen::MatrixXf& pred, const Eigen::Matr
 virtual void backward(Eigen::MatrixXf& dloss, const Eigen::MatrixXf& pred, const Eigen::MatrixXf& y_true) override;
 
 }; // class MSE
+
 }; // namespace Losses
 }; // namespace neuralNets
 #endif

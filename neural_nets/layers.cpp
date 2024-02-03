@@ -42,5 +42,4 @@ void Linear::backward(Eigen::MatrixXf& in_err, const Eigen::MatrixXf& out_err){
 }
 
 }; // namespace Layers
-
 }; // namespace neuralNets

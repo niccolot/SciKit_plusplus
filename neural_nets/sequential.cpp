@@ -1,9 +1,10 @@
 #include "sequential.h"
 #include <eigen3/Eigen/Dense>
+#include <iostream>
 
 namespace neuralNets{
 
-void Sequential::forward(Eigen::MatrixXf &x){for(auto l : m_model) l->forward(x,x);}
+void Sequential::forward(Eigen::MatrixXf &x) {for(const auto layer : m_model) layer->forward(x,x);}
 
 void Sequential::backward(float& loss, Eigen::MatrixXf& y_true, Eigen::MatrixXf& pred){
 
@@ -18,5 +19,47 @@ void Sequential::backward(float& loss, Eigen::MatrixXf& y_true, Eigen::MatrixXf&
 
 void Sequential::add(Module* layer){m_model.emplace_back(layer);}
 
-void Sequential::_set_loss(Losses::LossModule& loss){m_loss = loss;}
+void Sequential::set_loss(Losses::LossModule& loss){m_loss = loss;}
+
+void Sequential::predict(std::vector<Eigen::MatrixXf>& pred, const std::vector<Eigen::MatrixXf>& dataset){
+
+    for(const auto x : dataset){
+        
+        Eigen::MatrixXf out;
+        out = x;
+        for(const auto layer : m_model){
+            layer->forward(out,out);
+        }
+
+        pred.push_back(out);
+    }
+}
+
+void Sequential::fit(const std::vector<Eigen::MatrixXf>& dataset, const std::vector<Eigen::MatrixXf>& labels, int epochs, float& acc, float& loss){
+
+    int samples = dataset.size();
+
+    for(int epoch=0; epoch<epochs; ++epoch){
+
+        float err=0;
+        for(int i=0; i<samples; ++i){
+
+            Eigen::MatrixXf out;
+            Eigen::MatrixXf label;
+            out = dataset[i];
+            label = labels[i];
+
+            this->forward(out);
+
+            float loss_val;
+            this->backward(loss_val, label, out);
+            err += loss_val;
+        }
+
+        std::cout<<"Epoch: "<<epoch+1<<"/"<<epochs;
+        std::cout<<"Loss: "<<err/samples<<"\n\n";
+    }
+}
+
+
 }; // namespace neuralNets
