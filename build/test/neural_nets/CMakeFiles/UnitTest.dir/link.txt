@@ -1,0 +1,1 @@
+/usr/bin/c++ CMakeFiles/UnitTest.dir/main.cpp.o CMakeFiles/UnitTest.dir/UnitTest_LinearLayer.cpp.o -o UnitTest  ../../src/neural_nets/libNeuralNets.a /usr/local/lib/libCatch2.a 

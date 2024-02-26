@@ -2,27 +2,22 @@
     "tasks": [
         {
             "type": "cppbuild",
-            "label": "C/C++: g++.exe build active file",
-            "command": "C:\\msys64\\mingw64\\bin\\g++.exe",
+            "label": "C/C++: g++ build active file",
+            "command": "/usr/bin/g++",
             "args": [
                 "-fdiagnostics-color=always",
                 "-g",
-                "-ggdb",
+                "${file}",
+                //"${fileDirname}/k_means_clustering/**.cpp",
+                //"${fileDirname}/svm/**.cpp",
+                "${fileDirname}/neural_nets/**.cpp",
                 "-pedantic-errors",
                 "-Wall",
                 "-Wextra",
-                "-std=c++20",
-                "main.cpp",
-                "k_means_clustering/point.cpp",
-                "k_means_clustering/k_means.cpp",
-                "k_means_clustering/utils.cpp",
-                "svm/data_utils.cpp",
-                "svm/smo_utils.cpp",
-                "svm/binary_svm.cpp",
-                "svm/kernels.cpp",
+                "-std=c++17",
                 "-o",
-                "${fileDirname}\\${fileBasenameNoExtension}.exe",
-                "-I C:/cpp_tools/eigen-3.4.0/Eigen/"
+                "${fileDirname}/${fileBasenameNoExtension}",
+                "-I /usr/local/include/eigen3/"
             ],
             "options": {
                 "cwd": "${fileDirname}"

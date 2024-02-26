@@ -1,0 +1,2 @@
+/usr/bin/ar qc libNeuralNets.a CMakeFiles/NeuralNets.dir/activations.cpp.o CMakeFiles/NeuralNets.dir/layers.cpp.o CMakeFiles/NeuralNets.dir/losses.cpp.o CMakeFiles/NeuralNets.dir/sequential.cpp.o
+/usr/bin/ranlib libNeuralNets.a

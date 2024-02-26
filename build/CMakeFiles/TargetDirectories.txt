@@ -1,0 +1,14 @@
+/home/niccolo/Documents/repos/SciKit_plusplus/build/CMakeFiles/edit_cache.dir
+/home/niccolo/Documents/repos/SciKit_plusplus/build/CMakeFiles/rebuild_cache.dir
+/home/niccolo/Documents/repos/SciKit_plusplus/build/src/svm/CMakeFiles/svm.dir
+/home/niccolo/Documents/repos/SciKit_plusplus/build/src/svm/CMakeFiles/edit_cache.dir
+/home/niccolo/Documents/repos/SciKit_plusplus/build/src/svm/CMakeFiles/rebuild_cache.dir
+/home/niccolo/Documents/repos/SciKit_plusplus/build/src/neural_nets/CMakeFiles/NeuralNets.dir
+/home/niccolo/Documents/repos/SciKit_plusplus/build/src/neural_nets/CMakeFiles/edit_cache.dir
+/home/niccolo/Documents/repos/SciKit_plusplus/build/src/neural_nets/CMakeFiles/rebuild_cache.dir
+/home/niccolo/Documents/repos/SciKit_plusplus/build/src/k_means_clustering/CMakeFiles/KMeansClustering.dir
+/home/niccolo/Documents/repos/SciKit_plusplus/build/src/k_means_clustering/CMakeFiles/edit_cache.dir
+/home/niccolo/Documents/repos/SciKit_plusplus/build/src/k_means_clustering/CMakeFiles/rebuild_cache.dir
+/home/niccolo/Documents/repos/SciKit_plusplus/build/test/neural_nets/CMakeFiles/UnitTest.dir
+/home/niccolo/Documents/repos/SciKit_plusplus/build/test/neural_nets/CMakeFiles/edit_cache.dir
+/home/niccolo/Documents/repos/SciKit_plusplus/build/test/neural_nets/CMakeFiles/rebuild_cache.dir

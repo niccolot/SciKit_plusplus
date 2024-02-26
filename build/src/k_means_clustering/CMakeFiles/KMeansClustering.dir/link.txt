@@ -1,0 +1,2 @@
+/usr/bin/ar qc libKMeansClustering.a CMakeFiles/KMeansClustering.dir/k_means.cpp.o CMakeFiles/KMeansClustering.dir/point.cpp.o CMakeFiles/KMeansClustering.dir/utils.cpp.o
+/usr/bin/ranlib libKMeansClustering.a
