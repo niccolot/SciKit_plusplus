@@ -15,7 +15,7 @@ Linear::Linear(int inNodes, int outNodes, std::string_view init, bool bias){
 
     // uniform [-1, 1] initialization
     if(init == "random"){
-        m_weigths = Eigen::MatrixXf::Random(inNodes, outNodes);
+        m_weights = Eigen::MatrixXf::Random(inNodes, outNodes);
         m_biasWeights = Eigen::MatrixXf::Zero(1, outNodes);
         if(bias){
             m_biasWeights = Eigen::MatrixXf::Random(1, outNodes);
@@ -26,24 +26,23 @@ Linear::Linear(int inNodes, int outNodes, std::string_view init, bool bias){
 void Linear::forward(Eigen::MatrixXf& out, const Eigen::MatrixXf& x){
 
     m_forward_input = x;
-    out = x*m_weigths + m_biasWeights;
+    out = x*m_weights + m_biasWeights;
 }
 
 void Linear::backward(Eigen::MatrixXf& in_err, const Eigen::MatrixXf& out_err){
 
-    in_err = out_err + m_weigths.transpose(); // dEdX
+    in_err = out_err * m_weights.transpose(); // dEdX
 
     auto dEdW = m_forward_input.transpose() * out_err;
-    // dEdB = out_err;
 
     // weight and bias update
-    m_weigths -= m_lr*dEdW;
-    m_biasWeights -= m_lr*out_err;
+    m_weights -= m_lr*dEdW;
+    m_biasWeights -= m_lr*out_err; // dEdB = out_err
 }
 
 void Linear::_set_weights_bias(const Eigen::MatrixXf& w, const Eigen::MatrixXf& b){
 
-    m_weigths = w;
+    m_weights = w;
     m_biasWeights = b;
 }
 

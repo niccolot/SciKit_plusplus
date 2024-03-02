@@ -23,7 +23,7 @@ class Linear : public Module{
 private:
 
 int m_inNodes, m_outNodes;
-Eigen::MatrixXf m_weigths;
+Eigen::MatrixXf m_weights;
 Eigen::MatrixXf m_biasWeights;
 Eigen::MatrixXf m_forward_input;
 bool m_bias_bool;
@@ -37,6 +37,8 @@ Linear(int inNodes, int outNodes, std::string_view init="random", bool bias=true
 virtual void forward(Eigen::MatrixXf& out, const Eigen::MatrixXf& x) override;
 virtual void backward(Eigen::MatrixXf& in_err, const Eigen::MatrixXf& out_err) override;
 void _set_weights_bias(const Eigen::MatrixXf& w, const Eigen::MatrixXf& b);
+const Eigen::MatrixXf& _get_weights() const {return m_weights;}
+const Eigen::MatrixXf& _get_bias() const {return m_biasWeights;}
    
 }; // class Linear
 
