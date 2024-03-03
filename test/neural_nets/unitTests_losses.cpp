@@ -27,7 +27,5 @@ TEST_CASE("MSE test", "[mse]"){
         mse.forward(out, yPred, y);
 
         REQUIRE_THAT(out, Catch::Matchers::WithinRel(target, 0.001f));
-        REQUIRE(1==1);
-
     }
 }
