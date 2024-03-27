@@ -1,25 +1,42 @@
 #include "sequential.h"
 #include <eigen3/Eigen/Dense>
 #include <iostream>
+#include <cassert>
+
 
 namespace neuralNets{
 
+
 void Sequential::forward(Eigen::MatrixXf &x) {for(const auto& layer : m_model) layer->forward(x,x);}
+
 
 void Sequential::backward(float& loss, Eigen::MatrixXf& y_true, Eigen::MatrixXf& pred){
 
-    m_loss.forward(loss, pred, y_true);
+    m_loss->forward(loss, pred, y_true);
 
     Eigen::MatrixXf dloss;
-    m_loss.backward(dloss, y_true, pred);
+    m_loss->backward(dloss, y_true, pred);
     for(auto it = m_model.rbegin(); it != m_model.rend(); ++it){
         (*it)->backward(dloss, dloss);
     }
 }
 
+
+void Sequential::set_loss(Losses::LossModule* loss){m_loss = loss;}
+
+
+int Sequential::count_layers() const{
+
+    int layers = 0;
+
+    for(const auto layer : m_model) ++layers;
+
+    return layers;
+}
+
+
 void Sequential::add(Module* layer){m_model.emplace_back(layer);}
 
-void Sequential::set_loss(Losses::LossModule& loss){m_loss = loss;}
 
 void Sequential::predict(std::vector<Eigen::MatrixXf>& pred, const std::vector<Eigen::MatrixXf>& dataset){
 
@@ -34,6 +51,7 @@ void Sequential::predict(std::vector<Eigen::MatrixXf>& pred, const std::vector<E
         pred.push_back(out);
     }
 }
+
 
 void Sequential::fit(const std::vector<Eigen::MatrixXf>& dataset, const std::vector<Eigen::MatrixXf>& labels, int epochs, float& acc, float& loss){
 
@@ -62,4 +80,16 @@ void Sequential::fit(const std::vector<Eigen::MatrixXf>& dataset, const std::vec
         std::cout<<"Loss: "<<loss<<"\n\n";
     }
 }
+
+
+const Eigen::MatrixXf& Sequential::_get_output_from_layer(int layer) const{
+
+    int totalLayers = this->count_layers();
+    
+    assert(layer < totalLayers);
+
+    return m_model[layer]->_get_output();
+}
+
+
 }; // namespace neuralNets

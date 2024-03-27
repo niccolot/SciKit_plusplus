@@ -10,6 +10,7 @@ void ReLU::forward(Eigen::MatrixXf& out, const Eigen::MatrixXf& x){
 
     m_forward_input = x;
     out = (x.array() < 0.f).select(0.f, x); // ReLU(x) = max{0,x}
+    m_forward_output = out;
 }
 
 void ReLU::backward(Eigen::MatrixXf& in_err, const Eigen::MatrixXf& out_err){
@@ -23,6 +24,7 @@ void Sigmoid::forward(Eigen::MatrixXf& out, const Eigen::MatrixXf& x){
 
     m_forward_input = x;
     out = x.unaryExpr(&m_sigmoid);
+    m_forward_output = out;
 }
 
 void Sigmoid::backward(Eigen::MatrixXf& in_err, const Eigen::MatrixXf& out_err){

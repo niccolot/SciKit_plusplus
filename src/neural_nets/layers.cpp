@@ -1,5 +1,6 @@
 #include "layers.h"
 #include <eigen3/Eigen/Dense>
+#include <cassert>
 
 namespace neuralNets{
 
@@ -23,10 +24,14 @@ Linear::Linear(int inNodes, int outNodes, std::string_view init, bool bias){
     }
 }
 
+
 void Linear::forward(Eigen::MatrixXf& out, const Eigen::MatrixXf& x){
+
+    assert(x.cols() == m_inNodes);
 
     m_forward_input = x;
     out = x*m_weights + m_biasWeights;
+    m_forward_output = out;
 }
 
 void Linear::backward(Eigen::MatrixXf& in_err, const Eigen::MatrixXf& out_err){
@@ -39,6 +44,7 @@ void Linear::backward(Eigen::MatrixXf& in_err, const Eigen::MatrixXf& out_err){
     m_weights -= m_lr*dEdW;
     m_biasWeights -= m_lr*out_err; // dEdB = out_err
 }
+
 
 void Linear::_set_weights_bias(const Eigen::MatrixXf& w, const Eigen::MatrixXf& b){
 
