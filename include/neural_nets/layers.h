@@ -1,23 +1,11 @@
 #ifndef LAYERS_H
 #define LAYERS_H
 
+#include "module.h"
 #include <eigen3/Eigen/Dense>
 #include <string>
 
 namespace neuralNets{
-
-class Module{
-
-public:
-
-virtual ~Module() = default;
-virtual void forward(Eigen::MatrixXf& out, const Eigen::MatrixXf& x) = 0;
-virtual void backward(Eigen::MatrixXf& in_err, const Eigen::MatrixXf& out_err) = 0;
-virtual const Eigen::MatrixXf& _get_output() const = 0;
-virtual const std::string& get_name() const = 0;
-}; // class Module
-
-
 namespace Layers{
 
 class Linear : public Module{
@@ -40,7 +28,7 @@ Linear() = delete;
 Linear(int inNodes, int outNodes, std::string_view init="random", bool bias=true);
 virtual void forward(Eigen::MatrixXf& out, const Eigen::MatrixXf& x) override;
 virtual void backward(Eigen::MatrixXf& in_err, const Eigen::MatrixXf& out_err) override;
-void _set_weights_bias(const Eigen::MatrixXf& w, const Eigen::MatrixXf& b);
+virtual void _set_weights_bias(const Eigen::MatrixXf& w, const Eigen::MatrixXf& b) override;
 const Eigen::MatrixXf& _get_output() const {return m_forward_output;}
 const Eigen::MatrixXf& _get_weights() const {return m_weights;}
 const Eigen::MatrixXf& _get_bias() const {return m_biasWeights;}

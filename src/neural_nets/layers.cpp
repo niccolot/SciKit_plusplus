@@ -3,8 +3,8 @@
 #include <cassert>
 
 namespace neuralNets{
-
 namespace Layers{
+
 
 Linear::Linear(int inNodes, int outNodes, std::string_view init, bool bias){
 
@@ -33,6 +33,7 @@ void Linear::forward(Eigen::MatrixXf& out, const Eigen::MatrixXf& x){
     out = x*m_weights + m_biasWeights;
     m_forward_output = out;
 }
+
 
 void Linear::backward(Eigen::MatrixXf& in_err, const Eigen::MatrixXf& out_err){
 
