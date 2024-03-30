@@ -26,6 +26,12 @@ Linear::Linear(int inNodes, int outNodes, std::string_view init, bool bias){
 
 
 void Linear::forward(Eigen::MatrixXf& out, const Eigen::MatrixXf& x){
+    /**
+     * linear layer forward pass
+     * 
+     * @param x inout tensor
+     * @return out output tensor
+    */
 
     assert(x.cols() == m_inNodes);
 
@@ -36,6 +42,12 @@ void Linear::forward(Eigen::MatrixXf& out, const Eigen::MatrixXf& x){
 
 
 void Linear::backward(Eigen::MatrixXf& in_err, const Eigen::MatrixXf& out_err){
+    /**
+     * linear layer backward pass
+     * 
+     * @param out_err derivative of error wrt the output given by subsequent layer in backpropagation
+     * @return in_err derivative of error wrt the input
+    */
 
     auto dEdW = m_forward_input.transpose() * out_err;
 

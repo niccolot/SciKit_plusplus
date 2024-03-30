@@ -80,7 +80,6 @@ void Sequential::fit(const std::vector<Eigen::MatrixXf>& dataset, const std::vec
             std::cout<<"Epoch: "<<epoch+1<<"/"<<epochs;
             std::cout<<" Loss: "<<loss<<"\n\n";
         }
-        
     }
 }
 
