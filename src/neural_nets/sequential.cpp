@@ -10,9 +10,9 @@ namespace neuralNets{
 void Sequential::_forward(Eigen::MatrixXf& x) {for(const auto& layer : m_model) layer->forward(x,x);}
 
 
-void Sequential::_backward(float& loss, Eigen::MatrixXf& y_true, Eigen::MatrixXf& pred){
+void Sequential::_backward(float& loss, const Eigen::MatrixXf& y_true, Eigen::MatrixXf& pred){
 
-    m_loss->forward(loss, pred, y_true);
+    m_loss->forward(loss, y_true, pred);
 
     Eigen::MatrixXf dloss;
     m_loss->backward(dloss, y_true, pred);
@@ -53,7 +53,7 @@ void Sequential::predict(std::vector<Eigen::MatrixXf>& pred, const std::vector<E
 }
 
 
-void Sequential::fit(const std::vector<Eigen::MatrixXf>& dataset, const std::vector<Eigen::MatrixXf>& labels, int epochs, float& acc, float& loss){
+void Sequential::fit(const std::vector<Eigen::MatrixXf>& dataset, const std::vector<Eigen::MatrixXf>& labels, int epochs, float& acc, float& loss, bool verbose){
 
     int samples = dataset.size();
 
@@ -62,22 +62,25 @@ void Sequential::fit(const std::vector<Eigen::MatrixXf>& dataset, const std::vec
         float err=0;
         for(int i=0; i<samples; ++i){
 
-            Eigen::MatrixXf out;
+            Eigen::MatrixXf x;
             Eigen::MatrixXf label;
-            out = dataset[i];
+            x = dataset[i];
             label = labels[i];
-
-            this->_forward(out);
+        
+            this->_forward(x);
 
             float loss_val;
-            this->_backward(loss_val, label, out);
+            this->_backward(loss_val, label, x);
             err += loss_val;
         }
 
         loss = err/samples;
 
-        std::cout<<"Epoch: "<<epoch+1<<"/"<<epochs;
-        std::cout<<"Loss: "<<loss<<"\n\n";
+        if(verbose){
+            std::cout<<"Epoch: "<<epoch+1<<"/"<<epochs;
+            std::cout<<" Loss: "<<loss<<"\n\n";
+        }
+        
     }
 }
 

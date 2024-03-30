@@ -19,7 +19,7 @@ Eigen::MatrixXf m_forward_input;
 Eigen::MatrixXf m_forward_output;
 std::string name = "Linear";
 bool m_bias_bool;
-float m_lr = 0.01;
+float m_lr = 0.1;
     
 public:
 

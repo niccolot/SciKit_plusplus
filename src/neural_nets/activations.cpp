@@ -13,6 +13,7 @@ void ReLU::forward(Eigen::MatrixXf& out, const Eigen::MatrixXf& x){
     m_forward_output = out;
 }
 
+
 void ReLU::backward(Eigen::MatrixXf& in_err, const Eigen::MatrixXf& out_err){
 
     // in_err = out_err * ReLU'(forward_input)

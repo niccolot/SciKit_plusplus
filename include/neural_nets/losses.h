@@ -11,8 +11,8 @@ class LossModule{
 
 public:
 
-virtual void forward(float& loss, const Eigen::MatrixXf& pred, const Eigen::MatrixXf& y_true) = 0;
-virtual void backward(Eigen::MatrixXf& dloss, const Eigen::MatrixXf& pred, const Eigen::MatrixXf& y_true) = 0;
+virtual void forward(float& loss, const Eigen::MatrixXf& y_true, const Eigen::MatrixXf& pred) = 0;
+virtual void backward(Eigen::MatrixXf& dloss, const Eigen::MatrixXf& y_true, const Eigen::MatrixXf& pred) = 0;
 }; // class LossModule
 
 
@@ -20,8 +20,8 @@ class MSE : public LossModule{
 
 public:
 
-virtual void forward(float& loss, const Eigen::MatrixXf& pred, const Eigen::MatrixXf& y_true) override;
-virtual void backward(Eigen::MatrixXf& dloss, const Eigen::MatrixXf& pred, const Eigen::MatrixXf& y_true) override;
+virtual void forward(float& loss, const Eigen::MatrixXf& y_true, const Eigen::MatrixXf& pred) override;
+virtual void backward(Eigen::MatrixXf& dloss, const Eigen::MatrixXf& y_true, const Eigen::MatrixXf& pred) override;
 
 }; // class MSE
 

@@ -37,13 +37,13 @@ void Linear::forward(Eigen::MatrixXf& out, const Eigen::MatrixXf& x){
 
 void Linear::backward(Eigen::MatrixXf& in_err, const Eigen::MatrixXf& out_err){
 
-    in_err = out_err * m_weights.transpose(); // dEdX
-
     auto dEdW = m_forward_input.transpose() * out_err;
 
     // weight and bias update
     m_weights -= m_lr*dEdW;
     m_biasWeights -= m_lr*out_err; // dEdB = out_err
+
+    in_err = out_err * m_weights.transpose(); // dEdX
 }
 
 

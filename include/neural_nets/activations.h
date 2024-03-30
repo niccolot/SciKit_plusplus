@@ -41,8 +41,6 @@ static float m_sigmoid(float x) { return 1/(1+exp(-x)); } // sigma(x)
 static float m_sigmoid_prime(float x) { return m_sigmoid(x)*(1-m_sigmoid(x)); } // sigma'(x)
 std::string name = "Sigmoid";
 
-
-
 public:
 
 Sigmoid() = default;
