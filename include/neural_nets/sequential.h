@@ -18,7 +18,7 @@ public:
 
 Sequential() = default;
 Sequential(const std::vector<Module*>& model, Losses::LossModule* loss) : m_model(model), m_loss(loss){}
-~Sequential() {for(auto l : m_model) delete l;}
+~Sequential(); 
 void add(Module* layer);
 void set_loss(Losses::LossModule* loss);
 void predict(std::vector<Eigen::MatrixXf>& pred, const std::vector<Eigen::MatrixXf>& dataset);

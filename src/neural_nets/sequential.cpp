@@ -7,6 +7,14 @@
 namespace neuralNets{
 
 
+Sequential::~Sequential(){
+    for(auto l : m_model){
+        delete l;
+        l = nullptr;
+    } 
+}
+
+
 void Sequential::_forward(Eigen::MatrixXf& x) {for(const auto& layer : m_model) layer->forward(x,x);}
 
 
