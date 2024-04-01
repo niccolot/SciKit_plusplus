@@ -36,7 +36,9 @@ void Linear::forward(Eigen::MatrixXf& out, const Eigen::MatrixXf& x){
     assert(x.cols() == m_inNodes);
 
     m_forward_input = x;
-    out = x*m_weights + m_biasWeights;
+    out = x*m_weights;
+    int rows = x.rows();
+    for(int r = 0; r < rows; ++r) out.row(r) += m_biasWeights;
     m_forward_output = out;
 }
 

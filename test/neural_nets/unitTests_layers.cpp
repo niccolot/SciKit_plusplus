@@ -3,6 +3,7 @@
 #include "activations.h"
 #include <catch2/catch.hpp>
 #include <eigen3/Eigen/Dense>
+#include <iostream>
 
 
 TEST_CASE("Linear layer shape test", "[linear_layer_shape_test]"){
@@ -71,8 +72,14 @@ TEST_CASE("Linear layer forward test", "[linear_layer_forward_test]"){
 
         linear._set_weights_bias(w,b);
 
-        Eigen::MatrixXf x{{1.f, 2.f, 3.f}};
-        Eigen::MatrixXf target{{1.f, 2.f, 3.f, 0.f}};
+        Eigen::MatrixXf x{
+            {1.f, 2.f, 3.f},
+            {1.f, 2.f, 3.f},
+        };
+        Eigen::MatrixXf target{
+            {1.f, 2.f, 3.f, 0.f},
+            {1.f, 2.f, 3.f, 0.f}
+        };
         
         Eigen::MatrixXf out;
 
@@ -102,7 +109,7 @@ TEST_CASE("Linear layer forward test", "[linear_layer_forward_test]"){
         Eigen::MatrixXf target{{-4.75f, 0.6f, 4.f, -0.85f},};
         
         Eigen::MatrixXf out;
-
+        
         linear.forward(out,x);
 
         REQUIRE(out.isApprox(target));
@@ -127,6 +134,7 @@ TEST_CASE("Linear layer backward test", "[linear_layer_backward_test]"){
 
     Eigen::MatrixXf x{{-9.f, -5.f}};
 
+    linear._set_lr(0.1);
     linear._set_weights_bias(w,b);
 
     Eigen::MatrixXf out;
@@ -137,7 +145,7 @@ TEST_CASE("Linear layer backward test", "[linear_layer_backward_test]"){
 
     SECTION("Backpropagation test"){
         
-        Eigen::MatrixXf backwardTarget{{-0.7f, 1.1f}};
+        Eigen::MatrixXf backwardTarget{{3.8f, 3.6f}};
         
         // test correct error propagation
         REQUIRE(out.isApprox(backwardTarget));
@@ -149,13 +157,13 @@ TEST_CASE("Linear layer backward test", "[linear_layer_backward_test]"){
         Eigen::MatrixXf updatedBias = linear._get_bias();
 
         Eigen::MatrixXf updatedWeightsTarget{
-            {0.5f, -0.08f, -0.41f, 0.1f},
-            {0.09f, -0.6f, 0.15f, 0.09f},
+            {0.5f, -1.7f, 0.4f, 0.1f},
+            {0.09f, -1.5f, 0.6f, 0.09f},
         };
         Eigen::MatrixXf updatedBiasTarget{
-            {0.2f, -0.98f, -0.01f, 0.5f},
+            {0.2f, -0.8f, -0.1f, 0.5f},
         };
-
+  
         // test correct parameters update
         REQUIRE(updatedWeights.isApprox(updatedWeightsTarget));
         REQUIRE(updatedBias.isApprox(updatedBiasTarget));

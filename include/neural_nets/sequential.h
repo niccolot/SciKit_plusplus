@@ -22,12 +22,16 @@ Sequential(const std::vector<Module*>& model, Losses::LossModule* loss) : m_mode
 void add(Module* layer);
 void set_loss(Losses::LossModule* loss);
 void predict(std::vector<Eigen::MatrixXf>& pred, const std::vector<Eigen::MatrixXf>& dataset);
-void fit(const std::vector<Eigen::MatrixXf>& dataset, const std::vector<Eigen::MatrixXf>& labels, int epochs, float& acc, float& loss, bool verbose=false);
+void fit(const std::vector<Eigen::MatrixXf>& dataset, 
+            const std::vector<Eigen::MatrixXf>& labels, 
+            int epochs, float& acc, float& loss, float lr = 0.01, bool verbose=false);
+
 const Eigen::MatrixXf& _get_output_from_layer(int layer) const;
 void set_W_b_layer(const Eigen::MatrixXf& w, const Eigen::MatrixXf& b, int layer);
 int count_layers() const;
 void _forward(Eigen::MatrixXf& x);
 void _backward(float& loss, const Eigen::MatrixXf& y_true, Eigen::MatrixXf& pred);
+void _set_lr(float lr) {for(auto& layer : m_model) layer->_set_lr(lr);}
 
 }; // class Sequential
 }; // namespace neuralNets

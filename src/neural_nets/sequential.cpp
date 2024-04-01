@@ -61,9 +61,13 @@ void Sequential::predict(std::vector<Eigen::MatrixXf>& pred, const std::vector<E
 }
 
 
-void Sequential::fit(const std::vector<Eigen::MatrixXf>& dataset, const std::vector<Eigen::MatrixXf>& labels, int epochs, float& acc, float& loss, bool verbose){
+void Sequential::fit(
+    const std::vector<Eigen::MatrixXf>& dataset, 
+    const std::vector<Eigen::MatrixXf>& labels, 
+    int epochs, float& acc, float& loss, float lr, bool verbose){
 
     int samples = dataset.size();
+    _set_lr(lr);
 
     for(int epoch=0; epoch<epochs; ++epoch){
 
@@ -75,10 +79,10 @@ void Sequential::fit(const std::vector<Eigen::MatrixXf>& dataset, const std::vec
             x = dataset[i];
             label = labels[i];
         
-            this->_forward(x);
+            _forward(x);
 
             float loss_val;
-            this->_backward(loss_val, label, x);
+            _backward(loss_val, label, x);
             err += loss_val;
         }
 

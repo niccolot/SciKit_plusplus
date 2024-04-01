@@ -35,6 +35,7 @@ void ReLU::backward(Eigen::MatrixXf& in_err, const Eigen::MatrixXf& out_err){
 
 
 void ReLU::_set_weights_bias(const Eigen::MatrixXf& w, const Eigen::MatrixXf& b){}
+void ReLU::_set_lr(float lr){}
 
 
 void Sigmoid::forward(Eigen::MatrixXf& out, const Eigen::MatrixXf& x){
@@ -64,6 +65,7 @@ void Sigmoid::backward(Eigen::MatrixXf& in_err, const Eigen::MatrixXf& out_err){
 
 
 void Sigmoid::_set_weights_bias(const Eigen::MatrixXf& w, const Eigen::MatrixXf& b){}
+void Sigmoid::_set_lr(float lr){}
 
 
 }; // namespace Activations

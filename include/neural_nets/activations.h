@@ -25,6 +25,7 @@ ReLU() = default;
 virtual void forward(Eigen::MatrixXf& out, const Eigen::MatrixXf& x) override;
 virtual void backward(Eigen::MatrixXf& in_err, const Eigen::MatrixXf& out_err) override;
 virtual void _set_weights_bias(const Eigen::MatrixXf& w, const Eigen::MatrixXf& b) override;
+virtual void _set_lr(float lr) override;
 virtual const Eigen::MatrixXf& _get_output() const {return m_forward_output;}
 const std::string& get_name() const {return name;}
 
@@ -48,6 +49,7 @@ Sigmoid() = default;
 virtual void forward(Eigen::MatrixXf& out, const Eigen::MatrixXf& x) override;
 virtual void backward(Eigen::MatrixXf& in_err, const Eigen::MatrixXf& out_err) override;
 virtual void _set_weights_bias(const Eigen::MatrixXf& w, const Eigen::MatrixXf& b) override;
+virtual void _set_lr(float lr) override;
 virtual const Eigen::MatrixXf& _get_output() const {return m_forward_output;}
 const std::string& get_name() const {return name;}
 

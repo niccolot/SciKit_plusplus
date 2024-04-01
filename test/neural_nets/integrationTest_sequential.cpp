@@ -23,7 +23,7 @@ TEST_CASE("XOR dataset", "[xor]"){
     model.set_loss(&mse);
     float acc, loss;
 
-    model.fit(dataset, labels, 1000, acc, loss, false);
+    model.fit(dataset, labels, 1000, acc, loss, 0.1, false);
     std::vector<Eigen::MatrixXf> pred;
     model.predict(pred, dataset);
 
