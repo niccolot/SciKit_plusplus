@@ -1,4 +1,4 @@
-*.csv
 TODO.txt
 build/
 .vscode/
+*.py

@@ -32,3 +32,4 @@ TEST_CASE("XOR dataset", "[xor]"){
     REQUIRE(pred[2].coeff(0,0) > 0.9);
     REQUIRE(pred[3].coeff(0,0) < 0.1);
 }
+

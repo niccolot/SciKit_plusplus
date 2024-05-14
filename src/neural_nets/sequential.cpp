@@ -90,7 +90,7 @@ void Sequential::fit(
 
         if(verbose){
             std::cout<<"Epoch: "<<epoch+1<<"/"<<epochs;
-            std::cout<<" Loss: "<<loss<<"\n\n";
+            std::cout<<"  Loss: "<<loss<<"\n\n";
         }
     }
 }
