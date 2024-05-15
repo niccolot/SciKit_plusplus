@@ -96,9 +96,78 @@ void Sequential::fit(
 }
 
 
+/*
+void Sequential::fit(
+    const std::vector<Eigen::MatrixXf>& dataset, 
+    const std::vector<Eigen::MatrixXf>& labels, 
+    int epochs, float& acc, float& loss, int batch_size, float lr, bool verbose){
+
+    int samples = dataset.size();
+    int batches = samples/batch_size;
+    int remainingDataPoints = samples % batch_size;
+    int features = dataset[0].cols();
+    _set_lr(lr);
+
+    for(int epoch=0; epoch<epochs; ++epoch){
+
+        float err1=0;
+        for(int batch_idx=0; batch_idx<batches; ++batch_idx){
+
+            Eigen::MatrixXf xBatch;
+            Eigen::MatrixXf labelBatch;
+
+            xBatch.resize(batch_size, features);
+            labelBatch.resize(batch_size,1);
+
+            for(int i=0; i<batch_size; ++i){
+                xBatch.row(i) = dataset[i+batch_idx*batch_size];
+                labelBatch.row(i) = labels[i+batch_idx*batch_size];
+            }
+        
+            _forward(xBatch);
+
+            float loss_val;
+            _backward(loss_val, labelBatch, xBatch);
+            err1 += loss_val;
+        }
+
+        err1 /= batches;
+
+        float err2 = 0;
+        
+        if(remainingDataPoints != 0){
+
+            for(int i=0; i<remainingDataPoints; ++i){
+
+                Eigen::MatrixXf x;
+                Eigen::MatrixXf label;
+                x = dataset[i + batches*batch_size + 1];
+                label = labels[i + batches*batch_size + 1];
+            
+                _forward(x);
+
+                float loss_val;
+                _backward(loss_val, label, x);
+                err2 += loss_val;            
+            }
+            err2 /= remainingDataPoints;
+        }
+        
+        loss = err1 + err2;
+
+        if(verbose){
+            std::cout<<"Epoch: "<<epoch+1<<"/"<<epochs;
+            std::cout<<"  Loss: "<<loss<<"\n\n";
+        }
+    }
+}
+
+*/
+
+
 const Eigen::MatrixXf& Sequential::_get_output_from_layer(int layer) const{
 
-    int totalLayers = this->count_layers();
+    int totalLayers = count_layers();
     
     assert(layer < totalLayers);
 
@@ -108,7 +177,7 @@ const Eigen::MatrixXf& Sequential::_get_output_from_layer(int layer) const{
 
 void Sequential::set_W_b_layer(const Eigen::MatrixXf& w, const Eigen::MatrixXf& b, int layer){
 
-    int totalLayers = this->count_layers();
+    int totalLayers = count_layers();
     
     assert(layer < totalLayers);
 

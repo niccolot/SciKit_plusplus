@@ -4,7 +4,7 @@
 #include "activations.h"
 #include "data.h"
 #include <eigen3/Eigen/Dense>
-#include <catch2/catch.hpp>
+#include <catch2/catch_all.hpp>
 
 
 TEST_CASE("XOR dataset", "[xor]"){

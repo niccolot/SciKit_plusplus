@@ -2,7 +2,7 @@
 #include "sequential.h"
 #include "layers.h"
 #include "activations.h"
-#include <catch2/catch.hpp>
+#include <catch2/catch_all.hpp>
 #include <eigen3/Eigen/Dense>
 
 using namespace neuralNets;

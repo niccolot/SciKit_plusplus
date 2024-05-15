@@ -1,6 +1,6 @@
 #define CATCH_CONFIG_MAIN
 #include "activations.h"
-#include <catch2/catch.hpp>
+#include <catch2/catch_all.hpp>
 #include <eigen3/Eigen/Dense>
 #include <iostream>
 

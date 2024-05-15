@@ -4,11 +4,11 @@ add_executable(UnitTests_sequential unitTests_sequential.cpp)
 add_executable(UnitTests_activations unitTest_activations.cpp)
 add_executable(IntegrationTest_sequential integrationTest_sequential.cpp)
 
-target_link_libraries(UnitTests_layers NeuralNets Catch2::Catch2) 
-target_link_libraries(UnitTests_losses NeuralNets Catch2::Catch2) 
-target_link_libraries(UnitTests_sequential NeuralNets Catch2::Catch2) 
-target_link_libraries(UnitTests_activations NeuralNets Catch2::Catch2)
-target_link_libraries(IntegrationTest_sequential NeuralNets)
+target_link_libraries(UnitTests_layers NeuralNets Catch2::Catch2WithMain) 
+target_link_libraries(UnitTests_losses NeuralNets Catch2::Catch2WithMain) 
+target_link_libraries(UnitTests_sequential NeuralNets Catch2::Catch2WithMain) 
+target_link_libraries(UnitTests_activations NeuralNets Catch2::Catch2WithMain)
+target_link_libraries(IntegrationTest_sequential NeuralNets Catch2::Catch2WithMain)
 
 target_include_directories(NeuralNets PUBLIC 
     ${CMAKE_CURRENT_SOURCE_DIR}/../../include/
